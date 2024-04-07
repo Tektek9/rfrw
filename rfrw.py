@@ -40,12 +40,14 @@ def kirimData(*args):
         time.sleep(0.1)
 
 def jeda():
-    time.sleep(1)
-    print("3...")
-    time.sleep(1)
-    print("2...")
-    time.sleep(1)
-    print("1...\n")
+    i = 1
+    for _ in range(3):
+        time.sleep(1)
+        if i == 3:
+            print(f"{i}...\n")
+        else:
+            print(f"{i}...")
+        i += 1
 
 def detectPort():
     detectPORT = serial.tools.list_ports.comports(include_links=False)
