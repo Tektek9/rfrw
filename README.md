@@ -11,3 +11,8 @@ RFID
 - update member
 
 ![](https://github.com/Tektek9/rfrw/blob/main/demo.gif)
+
+INstallasi
+```
+pip install -r requirements.txt
+```
