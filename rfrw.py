@@ -39,16 +39,6 @@ def kirimData(*args):
         conn.write(command.encode())
         time.sleep(0.1)
 
-def jeda():
-    i = 1
-    for _ in range(3):
-        time.sleep(1)
-        if i == 3:
-            print(f"{i}...\n")
-        else:
-            print(f"{i}...")
-        i += 1
-
 def detectPort():
     detectPORT = serial.tools.list_ports.comports(include_links=False)
     print("\nBerikut list port yang terdeteksi:")
@@ -60,9 +50,8 @@ def writeCard(*args):
     _data, _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Tempelkan kartu dan tunggu dalam 3 detik")
+    print("Mohon tempelkan kartu")
     kirimData(serialComm, f"WRITE={_data}\n")
-    jeda()
     while True:
         arduino = serialComm.readline().decode().strip()
         if "Gagal1" in arduino:
@@ -77,9 +66,8 @@ def readCard(*args):
     _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Tempelkan kartu dan tunggu dalam 3 detik")
+    print("Mohon tempelkan kartu")
     kirimData(serialComm, f"READ\n")
-    jeda()
     while True:
         arduino = serialComm.readline().decode().strip()
         if "=" in arduino:
@@ -97,9 +85,8 @@ def verifyCard(*args):
     _data, _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Tempelkan kartu dan tunggu dalam 3 detik")
+    print("Mohon tempelkan kartu")
     kirimData(serialComm, f"VERIFY={_data}\n")
-    jeda()
     while True:
         arduino = serialComm.readline().decode().strip()
         if "=" in arduino:
@@ -116,7 +103,6 @@ def verifyCard(*args):
             print(arduino)
         else:
             break
-        time.sleep(3)
     print("")
 
 def custom(*args):
