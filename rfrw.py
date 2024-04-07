@@ -47,7 +47,7 @@ def cekMemberCard(*args):
                     print("- {"+member+"}")
                 print("")
         else:
-            print(f"File {args} tidak ditemukan\n")
+            print(f"File {args[0]} tidak ditemukan\n")
     elif len(args) == 3:
         _doc, _memberLama, _memberBaru = args
         _temp = "rfidnew.ino"
