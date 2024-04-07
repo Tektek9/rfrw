@@ -6,6 +6,7 @@ import serial
 import time
 import sys
 import re
+import os
 
 textCLI = pyfiglet.figlet_format("RFIDrw")
 colorTEXT = colored(textCLI, color="magenta")
@@ -17,16 +18,53 @@ optBaudRate = [9600, 15200]
 nameAPP = sys.argv[0][2:]
 dig16 = "xxxxxxxxxxxxxxxx"
 custOPT = f"{defPort} {defBaudrate} {defTimeout}"
+dir = os.getcwd()
 
 def fullBantuan():
-    print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]    - Untuk dikirimkan ke kartu rfid\n  [Port]        - Port komunikasi serial\n  [BaudRate]    - BaudRate komunikasi serial\n  [Timeout]     - Timeout komunikasi serial\n  [-D/--detect] - Untuk mendeteksi port yang aktif\n  [-R/--read]   - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]  - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify] - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]  - Untuk membaca informasi Tag pada kartu rfid\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-T/--tagid]")
-    print(f"\nContoh Penggunaan Mode default:\n  python.exe {nameAPP} -R\n  python.exe {nameAPP} --read\n  python.exe {nameAPP} -D\n  python.exe {nameAPP} --detect\n  python.exe {nameAPP} -T\n  python.exe {nameAPP} --tagid\n  python.exe {nameAPP} -W {dig16}\n  python.exe {nameAPP} --write {dig16}\n  python.exe {nameAPP} -V {dig16}\n  python.exe {nameAPP} --verify {dig16}")
+    print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]          - Untuk dikirimkan ke kartu rfid\n  [Port]              - Port komunikasi serial\n  [BaudRate]          - BaudRate komunikasi serial\n  [Timeout]           - Timeout komunikasi serial\n  [-D/--detect]       - Untuk mendeteksi port yang aktif\n  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid\n  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member\n  [-UM/updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-T/--tagid]\n  python.exe {nameAPP} [-CM/--checkMember]\n  python.exe {nameAPP} [-UM/--updateMember]")
+    print(f"\nContoh Penggunaan Mode default:\n  python.exe {nameAPP} -R\n  python.exe {nameAPP} --read\n  python.exe {nameAPP} -D\n  python.exe {nameAPP} --detect\n  python.exe {nameAPP} -T\n  python.exe {nameAPP} --tagid\n  python.exe {nameAPP} -W {dig16}\n  python.exe {nameAPP} --write {dig16}\n  python.exe {nameAPP} -V {dig16}\n  python.exe {nameAPP} --verify {dig16}\n  python.exe {nameAPP} -CM rfid.ino\n  python.exe {nameAPP} --checkMember rfid.ino\n  python.exe {nameAPP} -UM rfid.ino '{{0x12, 0x34, 0x56, 0x78}}' '{{0x9E, 0x8D, 0xDE, 0x55}}'\n  python.exe {nameAPP} --updateMember rfid.ino '{{0x12, 0x34, 0x56, 0x78}}' '{{0x9E, 0x8D, 0xDE, 0x55}}'")
     print(f"\nMode custom:\n  python.exe {nameAPP} [-C/--custom] [-R/--read] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-T/--tagid] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-W/--write] [16 digit] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-V/--verify] [16 digit] [Port] [BaudRate] [Timeout]\n")
     print(f"Contoh Penggunaan Mode custom:\n  python.exe {nameAPP} -C -R {custOPT}\n  python.exe {nameAPP} -C --read {custOPT}\n  python.exe {nameAPP} -C -T {custOPT}\n  python.exe {nameAPP} -C --tagid {custOPT}\n  python.exe {nameAPP} -C -W {dig16} {custOPT}\n  python.exe {nameAPP} -C --write {dig16} {custOPT}\n  python.exe {nameAPP} -C -V {dig16} {custOPT}\n  python.exe {nameAPP} -C --verify {dig16} {custOPT}\n  python.exe {nameAPP} --custom -R {custOPT}\n  python.exe {nameAPP} --custom --read {custOPT}\n  python.exe {nameAPP} --custom -T {custOPT}\n  python.exe {nameAPP} --custom --tagid {custOPT}\n  python.exe {nameAPP} --custom -W {dig16} {custOPT}\n  python.exe {nameAPP} --custom --write {dig16} {custOPT}\n  python.exe {nameAPP} --custom -V {dig16} {custOPT}\n  python.exe {nameAPP} --custom --verify {dig16} {custOPT}\n")
-    
+
 def bantuan():
-    print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]       - Untuk dikirimkan ke kartu rfid\n  [Port]           - Port komunikasi serial\n  [BaudRate]       - BaudRate komunikasi serial\n  [Timeout]        - Timeout komunikasi serial\n  [-D/--detect]    - Untuk mendeteksi port yang aktif\n  [-R/--read]      - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]     - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify]    - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]     - Untuk membaca informasi Tag pada kartu rfid\n  [-FH/--fullhelp] - Untuk detail bantuan dan penggunaannya\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-FH/--fullhelp]\n  python.exe {nameAPP} [-T/--tagid]")
+    print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]          - Untuk dikirimkan ke kartu rfid\n  [Port]              - Port komunikasi serial\n  [BaudRate]          - BaudRate komunikasi serial\n  [Timeout]           - Timeout komunikasi serial\n  [-D/--detect]       - Untuk mendeteksi port yang aktif\n  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid\n  [-FH/--fullhelp]    - Untuk detail bantuan dan penggunaannya\n  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member\n  [-UM/updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-FH/--fullhelp]\n  python.exe {nameAPP} [-T/--tagid]\n  python.exe {nameAPP} [-CM/--checkMember]\n  python.exe {nameAPP} [-UM/--updateMember]")
     print(f"\nMode custom:\n  python.exe {nameAPP} [-C/--custom] [-R/--read] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-W/--write] [16 digit] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-V/--verify] [16 digit] [Port] [BaudRate] [Timeout]\n  python.exe {nameAPP} [-C/--custom] [-T/--tagid] [Port] [BaudRate] [Timeout]\n")
+
+def info():
+    print(f"\nUntuk bantuan:\n  python.exe {nameAPP} -H\n  python.exe {nameAPP} --help\n  python.exe {nameAPP} -FH\n  python.exe {nameAPP} --fullhelp\n")
+    
+def cekMemberCard(*args):
+    if len(args) == 1:
+        path = f"{dir}\\rfid\\{args[0]}"
+        if os.path.exists(path):
+            with open(path, 'r') as file:
+                fileINO = file.read()
+            
+            hasil = re.findall(r'(?<!//)\s*byte\s+memberTag\d+\s*\[\]\s*=\s*\{([^\}]*)\}',fileINO)
+            if hasil != 0:
+                print(f"Terdapat data kartu yang sudah mendapatkan akses member\nBerikut list array byte pada file {args[0]}")
+                for member in hasil:
+                    print("- {"+member+"}")
+                print("")
+        else:
+            print(f"File {args} tidak ditemukan\n")
+    elif len(args) == 3:
+        _doc, _memberLama, _memberBaru = args
+        _temp = "rfidnew.ino"
+        defpath = f"{dir}\\rfid\\{_doc}"
+        newpath = f"{dir}\\rfid\\{_temp}"
+        if os.path.exists(defpath):
+            with open(defpath) as r: 
+                text = r.read().replace(f"{_memberLama}", f"{_memberBaru}")
+            with open(newpath, "w") as w:
+                w.write(text)
+            os.remove(defpath)
+            os.rename(newpath, defpath)
+            if os.path.exists(defpath):
+                print(f"Berhasil merubah akses member dari {_memberLama} ke {_memberBaru} pada file {_doc}")
+                print(f"Silahkan upload file {_doc} ke arduino untuk memperbaharui akses kartu member\n")
+        else:
+            print(f"File {_doc} tidak ditemukan\n")
 
 def kirimData(*args):
     if len(args) == 2:
@@ -143,8 +181,8 @@ def custom(*args):
             print(f"\nMode Custom Tag")
             readTag(_port, _baudrate, _timeout)
 
-if arg == 0 or (arg == 1 and sys.argv[1] in ["-H", "--help"]):
-    bantuan()
+if arg == 0:
+    info()
 elif arg == 1:
     mode = sys.argv[1]
     if mode in ["-R", "--read"]:
@@ -153,18 +191,32 @@ elif arg == 1:
     elif mode in ["-T", "--tagid"]:
         print("\nMode Tag")
         readTag(defPort, defBaudrate, defTimeout)
+    elif mode in ["-H", "--help"]:
+        bantuan()
     elif mode in ["-FH", "--fullhelp"]:
         fullBantuan()
     elif mode in ["-D", "--detect"]:
         detectPort()
     else:
-        bantuan()
+        info()
 elif arg > 1 and arg < 7:
     mode = sys.argv[1]
     data = sys.argv[2]
     if mode in ["-W", "--write"] and len(data) == 16:
         print("\nMode Write")
         writeCard(data, defPort, defBaudrate, defTimeout)
+    elif mode in ["-CM", "--checkMember"] and (".ino" in data or ".INO" in data):
+        if arg == 2:
+            print("\nMode CekMember")
+            print("Membuka file .ino lokasi default")
+            cekMemberCard(data)
+    elif mode in ["-UM", "--updateMember"] and (".ino" in data or ".INO" in data):
+        if arg == 4:
+            mLama = sys.argv[3]
+            mBaru = sys.argv[4]
+            print("\nMode UpdateMember")
+            print("Membuka file .ino lokasi default")
+            cekMemberCard(data, mLama, mBaru)
     elif mode in ["-V", "--verify"] and len(data) == 16:
         print("\nMode Verify")
         verifyCard(data, defPort, defBaudrate, defTimeout)
@@ -177,7 +229,7 @@ elif arg > 1 and arg < 7:
         if subMode in ["-W", "--write", "-V", "--verify"] and len(customData) == 16 and "COM" in pOrt and baudRate.isdigit() and int(baudRate) in optBaudRate and timeOut.isdigit():
             custom(subMode, customData, pOrt, baudRate, timeOut)
         else:
-            bantuan()
+            info()
     elif mode in ["-C", "--custom"] and arg == 5:
         subMode = sys.argv[2]
         pOrt = sys.argv[3]
@@ -186,8 +238,8 @@ elif arg > 1 and arg < 7:
         if subMode in ["-R", "--read", "-T", "--tagid"] and "COM" in pOrt and baudRate.isdigit() and int(baudRate) in optBaudRate and timeOut.isdigit():
             custom(subMode, pOrt, baudRate, timeOut)
         else:
-            bantuan()
+            info()
     else:
-        bantuan()
+        info()
 else:
-    bantuan()
+    info()

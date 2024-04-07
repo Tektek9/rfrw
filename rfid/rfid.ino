@@ -16,8 +16,8 @@ String newblockcontent;
 
 //ISIKAN DIBAWAH INI UNTUK MENDAPATKAN AKSES MEMBER
 byte memberTag1[] = {0xD9, 0x3A, 0xE9, 0x56}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
-//byte memberTag2[] = {0x12, 0x34, 0x56, 0x78}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
-//byte memberTag3[] = {0x12, 0x34, 0x56, 0x78}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
+byte memberTag2[] = {0x9E, 0x8D, 0xDE, 0x55}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
+byte memberTag3[] = {0xAA, 0xFD, 0xDF, 0xFF}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
 
 void setup() {
   Serial.begin(9600);
@@ -114,14 +114,14 @@ bool hanSIP(byte uid[]) {
     return true;
   }
   return false;
-  // if (memcmp(uid, memberTag2, 4) == 0) {
-  //   return true;
-  // }
-  // return false;
-  // if (memcmp(uid, memberTag3, 4) == 0) {
-  //   return true;
-  // }
-  // return false;
+  if (memcmp(uid, memberTag2, 4) == 0) {
+    return true;
+  }
+  return false;
+  if (memcmp(uid, memberTag3, 4) == 0) {
+    return true;
+  }
+  return false;
 }
 
 //membaca informasi tag kartu rfid dan mengirim array byte yang nanti bisa digunakan untuk diisikan ulang di kode arduino ini untuk terdaftar sebagai member
