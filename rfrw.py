@@ -62,6 +62,26 @@ def writeCard(*args):
             break
     print("Proses selesai, silahkan lepas kartu\n")
 
+def readTag(*args):
+    _port, _baudRate, _timeOut = args
+    serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
+    time.sleep(2)
+    print("Mohon tempelkan kartu")
+    kirimData(serialComm, f"TAG\n")
+    while True:
+        arduino = serialComm.readline().decode().strip()
+        if "=" in arduino:
+            temp = re.split(r'=', arduino)
+            print(f"{temp[0]}: {temp[1]}")
+            print(f"Array Byte {temp[0]}: {temp[2]}")
+        elif "Gagal4" in arduino:
+            print("Gagal membaca data dari kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
+        elif arduino:
+            print(arduino)
+        else:
+            break
+    print("Proses selesai, silahkan lepas kartu\n")
+
 def readCard(*args):
     _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
@@ -111,7 +131,7 @@ def custom(*args):
         if _mode in ["-W", "--write"]:
             print(f"\nMode Custom Write")
             writeCard(_data, _port, _baudrate, _timeout)
-        else:
+        elif _mode in ["-V", "--verify"]:
             print(f"\nMode Custom Verify")
             verifyCard(_data, _port, _baudrate, _timeout)
     else:
@@ -119,6 +139,9 @@ def custom(*args):
         if _mode in ["-R", "--read"]:
             print(f"\nMode Custom Read")
             readCard(_port, _baudrate, _timeout)
+        elif _mode in ["-T", "--tagid"]:
+            print(f"\nMode Custom Tag")
+            readTag(_port, _baudrate, _timeout)
 
 if arg == 0 or (arg == 1 and sys.argv[1] in ["-H", "--help"]):
     bantuan()
@@ -127,6 +150,9 @@ elif arg == 1:
     if mode in ["-R", "--read"]:
         print("\nMode Read")
         readCard(defPort, defBaudrate, defTimeout)
+    elif mode in ["-T", "--tagid"]:
+        print("\nMode Tag")
+        readTag(defPort, defBaudrate, defTimeout)
     elif mode in ["-FH", "--fullhelp"]:
         fullBantuan()
     elif mode in ["-D", "--detect"]:
@@ -157,7 +183,7 @@ elif arg > 1 and arg < 7:
         pOrt = sys.argv[3]
         baudRate = sys.argv[4]
         timeOut = sys.argv[5]
-        if subMode in ["-R", "--read"] and "COM" in pOrt and baudRate.isdigit() and int(baudRate) in optBaudRate and timeOut.isdigit():
+        if subMode in ["-R", "--read", "-T", "--tagid"] and "COM" in pOrt and baudRate.isdigit() and int(baudRate) in optBaudRate and timeOut.isdigit():
             custom(subMode, pOrt, baudRate, timeOut)
         else:
             bantuan()
