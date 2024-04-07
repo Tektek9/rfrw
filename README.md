@@ -7,5 +7,7 @@ RFID
 - rfid auth
 - detection port
 - custom serial configuration
+- check member
+- update member
 
 ![](https://github.com/Tektek9/rfrw/blob/main/demo.gif)
