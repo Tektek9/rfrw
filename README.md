@@ -12,7 +12,7 @@ RFID
 
 ![](https://github.com/Tektek9/rfrw/blob/main/demo.gif)
 
-INstallasi
+Langkah Installasi
 ```
 pip install -r requirements.txt
 ```
