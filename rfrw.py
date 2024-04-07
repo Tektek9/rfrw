@@ -103,7 +103,7 @@ def verifyCard(*args):
             print(arduino)
         else:
             break
-    print("")
+    print("Proses selesai, silahkan lepas kartu\n")
 
 def custom(*args):
     if len(args) == 5:
