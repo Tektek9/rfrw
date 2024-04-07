@@ -46,6 +46,8 @@ def cekMemberCard(*args):
                 for member in hasil:
                     print("- {"+member+"}")
                 print("")
+            else:
+                print(f"Tidak ditemukan kartu yang memiliki akses member, silahkan cek pada file {args[0]}\nSelanjutnya cek dibagian memberTag untuk cek detail akses member\n")
         else:
             print(f"File {args[0]} tidak ditemukan\n")
     elif len(args) == 3:
