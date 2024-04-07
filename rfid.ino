@@ -13,6 +13,8 @@ int block = 2;
 byte readbackblock[18] = { 0 };
 String data;
 String newblockcontent;
+
+//ISIKAN DIBAWAH INI UNTUK MENDAPATKAN AKSES MEMBER
 byte memberTag1[] = {0xD9, 0x3A, 0xE9, 0x56}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
 //byte memberTag2[] = {0x12, 0x34, 0x56, 0x78}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
 //byte memberTag3[] = {0x12, 0x34, 0x56, 0x78}; //Copy kan disini untuk array byte dari mode tag, dan aktifkan
