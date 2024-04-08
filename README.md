@@ -17,17 +17,17 @@ pip install -r requirements.txt
 Untuk bantuan
 ```
 Untuk bantuan:
-  [16 digit]          - Untuk dikirimkan ke kartu rfid
-  [Port]              - Port komunikasi serial
-  [BaudRate]          - BaudRate komunikasi serial
-  [Timeout]           - Timeout komunikasi serial
-  [-D/--detect]       - Untuk mendeteksi port yang aktif
-  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid
-  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid
-  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid
-  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid
-  [-FH/--fullhelp]    - Untuk detail bantuan dan penggunaannya
-  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member
+  [16 digit]            - Untuk dikirimkan ke kartu rfid
+  [Port]                - Port komunikasi serial
+  [BaudRate]            - BaudRate komunikasi serial
+  [Timeout]             - Timeout komunikasi serial
+  [-D/--detect]         - Untuk mendeteksi port yang aktif
+  [-R/--read]           - Untuk membaca 16 digit pada kartu rfid
+  [-W/--write]          - Untuk menulis 16 digit pada kartu rfid
+  [-V/--verify]         - Untuk verifikasi 16 digit pada kartu rfid
+  [-T/--tagid]          - Untuk membaca informasi Tag pada kartu rfid
+  [-FH/--fullhelp]      - Untuk detail bantuan dan penggunaannya
+  [-CM/--checkMember]   - Untuk mengecek kartu mana saya yang memiliki akses member
   [-UM/--updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya
 
 Mode default:
@@ -50,16 +50,16 @@ Mode custom:
 Untuk bantuan yang lebih detail
 ```
 Untuk bantuan:
-  [16 digit]          - Untuk dikirimkan ke kartu rfid
-  [Port]              - Port komunikasi serial
-  [BaudRate]          - BaudRate komunikasi serial
-  [Timeout]           - Timeout komunikasi serial
-  [-D/--detect]       - Untuk mendeteksi port yang aktif
-  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid
-  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid
-  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid
-  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid
-  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member
+  [16 digit]            - Untuk dikirimkan ke kartu rfid
+  [Port]                - Port komunikasi serial
+  [BaudRate]            - BaudRate komunikasi serial
+  [Timeout]             - Timeout komunikasi serial
+  [-D/--detect]         - Untuk mendeteksi port yang aktif
+  [-R/--read]           - Untuk membaca 16 digit pada kartu rfid
+  [-W/--write]          - Untuk menulis 16 digit pada kartu rfid
+  [-V/--verify]         - Untuk verifikasi 16 digit pada kartu rfid
+  [-T/--tagid]          - Untuk membaca informasi Tag pada kartu rfid
+  [-CM/--checkMember]   - Untuk mengecek kartu mana saya yang memiliki akses member
   [-UM/--updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya
 
 Mode default:
