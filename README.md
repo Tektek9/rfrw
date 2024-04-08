@@ -27,7 +27,7 @@ Untuk bantuan:
   [-V/--verify]         - Untuk verifikasi 16 digit pada kartu rfid
   [-T/--tagid]          - Untuk membaca informasi Tag pada kartu rfid
   [-FH/--fullhelp]      - Untuk detail bantuan dan penggunaannya
-  [-CM/--checkMember]   - Untuk mengecek kartu mana saya yang memiliki akses member
+  [-CM/--checkMember]   - Untuk mengecek kartu mana yang memiliki akses member
   [-UM/--updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya
 
 Mode default:
@@ -59,7 +59,7 @@ Untuk bantuan:
   [-W/--write]          - Untuk menulis 16 digit pada kartu rfid
   [-V/--verify]         - Untuk verifikasi 16 digit pada kartu rfid
   [-T/--tagid]          - Untuk membaca informasi Tag pada kartu rfid
-  [-CM/--checkMember]   - Untuk mengecek kartu mana saya yang memiliki akses member
+  [-CM/--checkMember]   - Untuk mengecek kartu mana yang memiliki akses member
   [-UM/--updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya
 
 Mode default:
