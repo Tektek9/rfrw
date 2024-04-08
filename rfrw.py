@@ -70,12 +70,13 @@ def cekMemberCard(*args):
 
 def kirimData(*args):
     if len(args) == 2:
+        _ket = "sedang berjalan, lepas kartu apabila proses sudah selesai"
         conn, command = args
         if "=" in command:
             aa = command.split("=")
-            print(f"Mode {aa[0].lower()} sedang berjalan, lepas kartu apabila proses sudah selesai")
+            print(f"Mode {aa[0].lower()} {_ket}")
         else:
-            print(f"Mode {command[:-1].lower()} sedang berjalan, lepas kartu apabila proses sudah selesai")
+            print(f"Mode {command[:-1].lower()} {_ket}")
         conn.write(command.encode())
         time.sleep(0.1)
 
@@ -143,6 +144,7 @@ def readCard(*args):
 
 def verifyCard(*args):
     _data, _port, _baudRate, _timeOut = args
+    _ket = "Data dari kartu dengan yang diinputkan"
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
     print("Mohon tempelkan kartu")
@@ -154,9 +156,9 @@ def verifyCard(*args):
             print(temp[0], temp[1])
             print(f"Data dari inputan {_data}")
             if temp[1] == _data:
-                print("Data dari kartu dengan yang diinputkan valid")
+                print(f"{_ket} valid")
             else:
-                print("Data dari kartu dengan yang diinputkan tidak valid")
+                print(f"{_ket} tidak valid")
         elif "Gagal2" in arduino:
             print("Gagal verifikasi data dari kartu dan inputan, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
         elif arduino:
@@ -204,20 +206,21 @@ elif arg == 1:
 elif arg > 1 and arg < 7:
     mode = sys.argv[1]
     data = sys.argv[2]
+    lokINO = "Membuka file .ino pada lokasi default"
     if mode in ["-W", "--write"] and len(data) == 16:
         print("\nMode Write")
         writeCard(data, defPort, defBaudrate, defTimeout)
     elif mode in ["-CM", "--checkMember"] and (".ino" in data or ".INO" in data):
         if arg == 2:
             print("\nMode CekMember")
-            print("Membuka file .ino lokasi default")
+            print(f"{lokINO}")
             cekMemberCard(data)
     elif mode in ["-UM", "--updateMember"] and (".ino" in data or ".INO" in data):
         if arg == 4:
             mLama = sys.argv[3]
             mBaru = sys.argv[4]
             print("\nMode UpdateMember")
-            print("Membuka file .ino lokasi default")
+            print(f"{lokINO}")
             cekMemberCard(data, mLama, mBaru)
     elif mode in ["-V", "--verify"] and len(data) == 16:
         print("\nMode Verify")
