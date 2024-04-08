@@ -10,11 +10,11 @@ RFID
 - check member
 - update member
 
-Langkah Installasi
+Langkah installasi
 ```
 pip install -r requirements.txt
 ```
-Untuk Bantuan
+Untuk bantuan
 ```
 Untuk bantuan:
   [16 digit]          - Untuk dikirimkan ke kartu rfid
