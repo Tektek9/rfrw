@@ -21,6 +21,8 @@ custOPT = f"{defPort} {defBaudrate} {defTimeout}"
 dir = os.getcwd()
 inpo = "Mohon tempelkan kartu"
 done = "Proses selesai, silahkan lepas kartu"
+fTag = "tag.h"
+lokTag = f"Membuka file {fTag} pada lokasi default"
 
 def fullBantuan():
     print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]          - Untuk dikirimkan ke kartu rfid\n  [Port]              - Port komunikasi serial\n  [BaudRate]          - BaudRate komunikasi serial\n  [Timeout]           - Timeout komunikasi serial\n  [-D/--detect]       - Untuk mendeteksi port yang aktif\n  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid\n  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member\n  [-UM/updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-T/--tagid]\n  python.exe {nameAPP} [-CM/--checkMember]\n  python.exe {nameAPP} [-UM/--updateMember]")
@@ -40,9 +42,9 @@ def cekMemberCard(*args):
         path = f"{dir}\\rfid\\{args[0]}"
         if os.path.exists(path):
             with open(path, 'r') as file:
-                fileINO = file.read()
+                memberFile = file.read()
             
-            hasil = re.findall(r'(?<!//)\s*byte\s+memberTag\d+\s*\[\]\s*=\s*\{([^\}]*)\}',fileINO)
+            hasil = re.findall(r'(?<!//)\s*byte\s+memberTag\d+\s*\[\]\s*=\s*\{([^\}]*)\}',memberFile)
             if hasil != 0:
                 print(f"Terdapat data kartu yang sudah mendapatkan akses member\nBerikut list array byte pada file {args[0]}")
                 for member in hasil:
@@ -54,7 +56,7 @@ def cekMemberCard(*args):
             print(f"File {args[0]} tidak ditemukan\n")
     elif len(args) == 3:
         _doc, _memberLama, _memberBaru = args
-        _temp = "rfidnew.ino"
+        _temp = "tagNew.h"
         defpath = f"{dir}\\rfid\\{_doc}"
         newpath = f"{dir}\\rfid\\{_temp}"
         if os.path.exists(defpath):
@@ -90,83 +92,95 @@ def detectPort():
     print("")
 
 def writeCard(*args):
-    _data, _port, _baudRate, _timeOut = args
-    serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
-    time.sleep(2)
-    print(f"{inpo}")
-    kirimData(serialComm, f"WRITE={_data}\n")
-    while True:
-        arduino = serialComm.readline().decode().strip()
-        if "Gagal1" in arduino:
-            print("Gagal menulis data ke kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
-        elif arduino:
-            print(arduino)
-        else:
-            break
+    try:
+        _data, _port, _baudRate, _timeOut = args
+        serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
+        time.sleep(2)
+        print(f"{inpo}")
+        kirimData(serialComm, f"WRITE={_data}\n")
+        while True:
+            arduino = serialComm.readline().decode().strip()
+            if "Gagal1" in arduino:
+                print("Gagal menulis data ke kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
+            elif arduino:
+                print(arduino)
+            else:
+                break
+    except serial.serialutil.SerialException:
+        print(f"Port default adalah port {defPort} tidak tersedia\nSilahkan gunakan mode custom port dan lakukan pendeteksian port yang tersedia")
     print(f"{done}\n")
 
 def readTag(*args):
-    _port, _baudRate, _timeOut = args
-    serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
-    time.sleep(2)
-    print(f"{inpo}")
-    kirimData(serialComm, f"TAG\n")
-    while True:
-        arduino = serialComm.readline().decode().strip()
-        if "=" in arduino:
-            temp = re.split(r'=', arduino)
-            print(f"{temp[0]}: {temp[1]}")
-            print(f"Array Byte {temp[0]}: {temp[2]}")
-        elif "Gagal4" in arduino:
-            print("Gagal membaca data dari kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
-        elif arduino:
-            print(arduino)
-        else:
-            break
+    try:
+        _port, _baudRate, _timeOut = args
+        serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
+        time.sleep(2)
+        print(f"{inpo}")
+        kirimData(serialComm, f"TAG\n")
+        while True:
+            arduino = serialComm.readline().decode().strip()
+            if "=" in arduino:
+                temp = re.split(r'=', arduino)
+                print(f"{temp[0]}: {temp[1]}")
+                print(f"Array Byte {temp[0]}: {temp[2]}")
+            elif "Gagal4" in arduino:
+                print("Gagal membaca data dari kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
+            elif arduino:
+                print(arduino)
+            else:
+                break
+    except serial.serialutil.SerialException:
+        print(f"Port default adalah port {defPort} tidak tersedia\nSilahkan gunakan mode custom port dan lakukan pendeteksian port yang tersedia")
     print(f"{done}\n")
 
 def readCard(*args):
-    _port, _baudRate, _timeOut = args
-    serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
-    time.sleep(2)
-    print(f"{inpo}")
-    kirimData(serialComm, f"READ\n")
-    while True:
-        arduino = serialComm.readline().decode().strip()
-        if "=" in arduino:
-            temp = re.split(r'=', arduino)
-            print(temp[0], temp[1])
-        elif "Gagal3" in arduino:
-            print("Gagal membaca data dari kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
-        elif arduino:
-            print(arduino)
-        else:
-            break
+    try:
+        _port, _baudRate, _timeOut = args
+        serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
+        time.sleep(2)
+        print(f"{inpo}")
+        kirimData(serialComm, f"READ\n")
+        while True:
+            arduino = serialComm.readline().decode().strip()
+            if "=" in arduino:
+                temp = re.split(r'=', arduino)
+                print(temp[0], temp[1])
+            elif "Gagal3" in arduino:
+                print("Gagal membaca data dari kartu, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
+            elif arduino:
+                print(arduino)
+            else:
+                break
+    except serial.serialutil.SerialException:
+        print(f"Port default adalah port {defPort} tidak tersedia\nSilahkan gunakan mode custom port dan lakukan pendeteksian port yang tersedia")
     print(f"{done}\n")
 
 def verifyCard(*args):
-    _data, _port, _baudRate, _timeOut = args
-    _ket = "Data dari kartu dengan yang diinputkan"
-    serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
-    time.sleep(2)
-    print(f"{inpo}")
-    kirimData(serialComm, f"VERIFY={_data}\n")
-    while True:
-        arduino = serialComm.readline().decode().strip()
-        if "=" in arduino:
-            temp = re.split(r'=', arduino)
-            print(temp[0], temp[1])
-            print(f"Data dari inputan {_data}")
-            if temp[1] == _data:
-                print(f"{_ket} valid")
+    try:
+        _data, _port, _baudRate, _timeOut = args
+        _ket = "Data dari kartu dengan yang diinputkan"
+        serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
+        time.sleep(2)
+        print(f"{inpo}")
+        kirimData(serialComm, f"VERIFY={_data}\n")
+        while True:
+            arduino = serialComm.readline().decode().strip()
+            if "=" in arduino:
+                temp = re.split(r'=', arduino)
+                print(temp[0], temp[1])
+                print(f"Data dari inputan {_data}")
+                if temp[1] == _data:
+                    print(f"{_ket} valid")
+                else:
+                    print(f"{_ket} tidak valid")
+            elif "Gagal2" in arduino:
+                print("Gagal verifikasi data dari kartu dan inputan, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
+            elif arduino:
+                print(arduino)
             else:
-                print(f"{_ket} tidak valid")
-        elif "Gagal2" in arduino:
-            print("Gagal verifikasi data dari kartu dan inputan, mohon tunggu sebentar.\nApabila masih belum terdeteksi, silahkan cobalagi")
-        elif arduino:
-            print(arduino)
-        else:
-            break
+                break
+    except serial.serialutil.SerialException:
+        print(f"Port default adalah port {defPort} tidak tersedia\nSilahkan gunakan mode custom port dan lakukan pendeteksian port yang tersedia")
     print(f"{done}\n")
 
 def custom(*args):
@@ -203,27 +217,25 @@ elif arg == 1:
         fullBantuan()
     elif mode in ["-D", "--detect"]:
         detectPort()
+    elif mode in ["-CM", "--checkMember"]:
+        print("\nMode CekMember")
+        print(f"{lokTag}")
+        cekMemberCard(fTag)
     else:
         info()
 elif arg > 1 and arg < 7:
     mode = sys.argv[1]
     data = sys.argv[2]
-    lokINO = "Membuka file .ino pada lokasi default"
     if mode in ["-W", "--write"] and len(data) == 16:
         print("\nMode Write")
         writeCard(data, defPort, defBaudrate, defTimeout)
-    elif mode in ["-CM", "--checkMember"] and (".ino" in data or ".INO" in data):
-        if arg == 2:
-            print("\nMode CekMember")
-            print(f"{lokINO}")
-            cekMemberCard(data)
-    elif mode in ["-UM", "--updateMember"] and (".ino" in data or ".INO" in data):
-        if arg == 4:
-            mLama = sys.argv[3]
-            mBaru = sys.argv[4]
+    elif mode in ["-UM", "--updateMember"]:
+        if arg == 3:
+            mLama = sys.argv[2]
+            mBaru = sys.argv[3]
             print("\nMode UpdateMember")
-            print(f"{lokINO}")
-            cekMemberCard(data, mLama, mBaru)
+            print(f"{lokTag}")
+            cekMemberCard(fTag, mLama, mBaru)
     elif mode in ["-V", "--verify"] and len(data) == 16:
         print("\nMode Verify")
         verifyCard(data, defPort, defBaudrate, defTimeout)
