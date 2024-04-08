@@ -205,7 +205,8 @@ bool isMember() {
     return true;
   } else {
     Serial.println("Kartu anda belum terdaftar sebagai member");
-    Serial.println("Silahkan lakukan mode tag dan isikan array byte dari hasil mode tag ke kode arduino");
+    Serial.println("Silahkan lakukan mode tag, lalu lakukan mode cek member");
+    Serial.println("Selanjutnya lakukan update member, untuk memperbaharui akses member");
     return false;
   }
 }
