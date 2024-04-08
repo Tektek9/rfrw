@@ -37,8 +37,8 @@ Mode default:
   python.exe rfrw.py [-D/--detect]
   python.exe rfrw.py [-FH/--fullhelp]
   python.exe rfrw.py [-T/--tagid]
-  python.exe rfrw.py [-CM/--checkMember]
-  python.exe rfrw.py [-UM/--updateMember]
+  python.exe rfrw.py [-CM/--checkMember] [Member Lama] [Member Baru]
+  python.exe rfrw.py [-UM/--updateMember] [Member Lama] [Member Baru]
 
 Mode custom:
   python.exe rfrw.py [-C/--custom] [-R/--read] [Port] [BaudRate] [Timeout]
@@ -68,8 +68,8 @@ Mode default:
   python.exe rfrw.py [-V/--verify] [16 digit]
   python.exe rfrw.py [-D/--detect]
   python.exe rfrw.py [-T/--tagid]
-  python.exe rfrw.py [-CM/--checkMember]
-  python.exe rfrw.py [-UM/--updateMember]
+  python.exe rfrw.py [-CM/--checkMember] [Member Lama] [Member Baru]
+  python.exe rfrw.py [-UM/--updateMember] [Member Lama] [Member Baru]
 
 Contoh Penggunaan Mode default:
   python.exe rfrw.py -R
@@ -82,10 +82,10 @@ Contoh Penggunaan Mode default:
   python.exe rfrw.py --write xxxxxxxxxxxxxxxx
   python.exe rfrw.py -V xxxxxxxxxxxxxxxx
   python.exe rfrw.py --verify xxxxxxxxxxxxxxxx
-  python.exe rfrw.py -CM
-  python.exe rfrw.py --checkMember
-  python.exe rfrw.py -UM '{0x12, 0x34, 0x56, 0x78}' '{0x9E, 0x8D, 0xDE, 0x55}'
-  python.exe rfrw.py --updateMember '{0x12, 0x34, 0x56, 0x78}' '{0x9E, 0x8D, 0xDE, 0x55}'
+  python.exe rfrw.py -CM rfid.ino
+  python.exe rfrw.py --checkMember rfid.ino
+  python.exe rfrw.py -UM rfid.ino '{0x12, 0x34, 0x56, 0x78}' '{0x9E, 0x8D, 0xDE, 0x55}'
+  python.exe rfrw.py --updateMember rfid.ino '{0x12, 0x34, 0x56, 0x78}' '{0x9E, 0x8D, 0xDE, 0x55}'
 
 Mode custom:
   python.exe rfrw.py [-C/--custom] [-R/--read] [Port] [BaudRate] [Timeout]
