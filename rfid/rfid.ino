@@ -205,8 +205,8 @@ bool isMember() {
     return true;
   } else {
     Serial.println("Kartu anda belum terdaftar sebagai member");
-    Serial.println("Silahkan lakukan mode tag, lalu lakukan mode cek member");
-    Serial.println("Selanjutnya lakukan update member, untuk memperbaharui akses member");
+    Serial.println("Silahkan lakukan Mode Tag, lalu lakukan Mode CekMember");
+    Serial.println("Selanjutnya lakukan Mode UpdateMember, untuk memperbaharui akses member");
     return false;
   }
 }
