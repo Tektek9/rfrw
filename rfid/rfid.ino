@@ -198,7 +198,7 @@ void detectCard() {
   delay(50);
 }
 
-//Untuk cek member atau bukan
+//Untuk cek kartu apakah sudah memiliki akses member atau belum
 bool isMember() {
   if (hanSIP(mfrc522.uid.uidByte)) {
     Serial.println("Kartu anda sudah terdaftar sebagai member");
