@@ -19,6 +19,7 @@ nameAPP = sys.argv[0][2:]
 dig16 = "xxxxxxxxxxxxxxxx"
 custOPT = f"{defPort} {defBaudrate} {defTimeout}"
 dir = os.getcwd()
+inpo = "Mohon tempelkan kartu"
 
 def fullBantuan():
     print(f"\n{colorTEXT}Untuk bantuan:\n  [16 digit]          - Untuk dikirimkan ke kartu rfid\n  [Port]              - Port komunikasi serial\n  [BaudRate]          - BaudRate komunikasi serial\n  [Timeout]           - Timeout komunikasi serial\n  [-D/--detect]       - Untuk mendeteksi port yang aktif\n  [-R/--read]         - Untuk membaca 16 digit pada kartu rfid\n  [-W/--write]        - Untuk menulis 16 digit pada kartu rfid\n  [-V/--verify]       - Untuk verifikasi 16 digit pada kartu rfid\n  [-T/--tagid]        - Untuk membaca informasi Tag pada kartu rfid\n  [-CM/--checkMember] - Untuk mengecek kartu mana saya yang memiliki akses member\n  [-UM/updateMember]  - Untuk mengupdate akses member dari list member yang ada sebelumnya\n\nMode default:\n  python.exe {nameAPP} [-R/--read]\n  python.exe {nameAPP} [-W/--write] [16 digit]\n  python.exe {nameAPP} [-V/--verify] [16 digit]\n  python.exe {nameAPP} [-D/--detect]\n  python.exe {nameAPP} [-T/--tagid]\n  python.exe {nameAPP} [-CM/--checkMember]\n  python.exe {nameAPP} [-UM/--updateMember]")
@@ -91,7 +92,7 @@ def writeCard(*args):
     _data, _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Mohon tempelkan kartu")
+    print(f"{inpo}")
     kirimData(serialComm, f"WRITE={_data}\n")
     while True:
         arduino = serialComm.readline().decode().strip()
@@ -107,7 +108,7 @@ def readTag(*args):
     _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Mohon tempelkan kartu")
+    print(f"{inpo}")
     kirimData(serialComm, f"TAG\n")
     while True:
         arduino = serialComm.readline().decode().strip()
@@ -127,7 +128,7 @@ def readCard(*args):
     _port, _baudRate, _timeOut = args
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Mohon tempelkan kartu")
+    print(f"{inpo}")
     kirimData(serialComm, f"READ\n")
     while True:
         arduino = serialComm.readline().decode().strip()
@@ -147,7 +148,7 @@ def verifyCard(*args):
     _ket = "Data dari kartu dengan yang diinputkan"
     serialComm = serial.Serial(port=str(_port), baudrate=int(_baudRate), timeout=int(_timeOut))
     time.sleep(2)
-    print("Mohon tempelkan kartu")
+    print(f"{inpo}")
     kirimData(serialComm, f"VERIFY={_data}\n")
     while True:
         arduino = serialComm.readline().decode().strip()
