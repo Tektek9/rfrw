@@ -1,8 +1,6 @@
 #ifndef FUNC_H
 #define FUNC_H
 
-#include <MFRC522.h>
-
 extern MFRC522 mfrc522;
 extern MFRC522::MIFARE_Key defaultKey;
 
