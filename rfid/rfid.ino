@@ -9,7 +9,8 @@ MFRC522::MIFARE_Key defaultKey;
 
 int block = 2;
 byte readbackblock[18] = { 0 };
-String data;String newblockcontent;
+String data;
+String newblockcontent;
 
 void setup() {
   Serial.begin(9600);
