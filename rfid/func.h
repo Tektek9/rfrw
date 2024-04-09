@@ -151,11 +151,11 @@ bool validate(int blockNumber) {
   }
 }
 
-//Write specific block
+//Menulis block spesifik
 bool writeBlock(int blockNumber, byte arrayAddress[]) {
   byte status2 = mfrc522.MIFARE_Write(blockNumber, arrayAddress, 16);
   if (status2 != MFRC522::STATUS_OK) {
-    Serial.print("MIFARE_Write() failed: ");
+    Serial.print("MIFARE_Write() gagal: ");
     Serial.println(mfrc522.GetStatusCodeName(status2));
     return false;
   } else {
@@ -163,12 +163,12 @@ bool writeBlock(int blockNumber, byte arrayAddress[]) {
   }
 }
 
-//Read specific block
+//Membaca block spesifik
 bool readBlock(int blockNumber, byte arrayAddress[]) {
   byte buffersize = 18;
   byte status2 = mfrc522.MIFARE_Read(blockNumber, arrayAddress, &buffersize);
   if (status2 != MFRC522::STATUS_OK) {
-    Serial.print("MIFARE_read() failed: ");
+    Serial.print("MIFARE_read() gagal: ");
     Serial.println(mfrc522.GetStatusCodeName(status2));
     return false;
   } else {
