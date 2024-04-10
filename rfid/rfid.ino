@@ -4,7 +4,6 @@
 
 Pins pins;
 Handlers handler;
-
 MFRC522 mfrc522(pins.SS_PIN, pins.RST_PIN);
 
 int block = 2;
@@ -17,7 +16,7 @@ void setup() {
   while (!Serial)
     ;
   SPI.begin();
-  handler.mfrc522.PCD_Init();
+  mfrc522.PCD_Init();
   delay(4);
   for (byte i = 0; i < 6; i++) {
     handler.defaultKey.keyByte[i] = 0xFF;
