@@ -1,11 +1,11 @@
 #include <SPI.h>
-#include <MFRC522.h>
-#include "tag.h"
 #include "pins.h"
-#include "func.h"
+#include "handler.h"
 
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-MFRC522::MIFARE_Key defaultKey;
+Pins pins;
+Handlers handler;
+
+MFRC522 mfrc522(pins.SS_PIN, pins.RST_PIN);
 
 int block = 2;
 byte readbackblock[18] = { 0 };
@@ -17,10 +17,10 @@ void setup() {
   while (!Serial)
     ;
   SPI.begin();
-  mfrc522.PCD_Init();
+  handler.mfrc522.PCD_Init();
   delay(4);
   for (byte i = 0; i < 6; i++) {
-    defaultKey.keyByte[i] = 0xFF;
+    handler.defaultKey.keyByte[i] = 0xFF;
   }
 }
 
@@ -31,47 +31,47 @@ void loop() {
     if (tanda != -1) {
       String mode = data.substring(0, tanda);
       if (mode == "WRITE") {
-        detectCard();
-        if (validate(block && isMember())) {
+        handler.detectCard();
+        if (handler.validate(block && handler.isMember())) {
           String newblockcontent = data.substring(tanda + 1);
-          writeCard(newblockcontent, block, readbackblock);
-          ledSukses();
+          handler.writeCard(newblockcontent, block, readbackblock);
+          handler.ledSukses();
         } else {
-          ledGagal();
+          handler.ledGagal();
           Serial.println("Gagal1");
         }
-        stopDetect();
+        handler.stopDetect();
       } else if (mode == "VERIFY") {
-        detectCard();
-        if (validate(block && isMember())) {
-          readCard(block, readbackblock);
-          ledSukses();
+        handler.detectCard();
+        if (handler.validate(block && handler.isMember())) {
+          handler.readCard(block, readbackblock);
+          handler.ledSukses();
         } else {
-          ledGagal();
+          handler.ledGagal();
           Serial.println("Gagal2");
         }
-        stopDetect();
+        handler.stopDetect();
       }
     } else if (data == "TAG") {
-      detectCard();
-      if (validate(block)) {
-        readTag();
-        ledSukses();
+      handler.detectCard();
+      if (handler.validate(block)) {
+        handler.readTag();
+        handler.ledSukses();
       } else {
-        ledGagal();
+        handler.ledGagal();
         Serial.println("Gagal4");
       }
-      stopDetect();
+      handler.stopDetect();
     } else if (data == "READ") {
-      detectCard();
-      if (validate(block) && isMember()) {
-        readCard(block, readbackblock);
-        ledSukses();
+      handler.detectCard();
+      if (handler.validate(block) && handler.isMember()) {
+        handler.readCard(block, readbackblock);
+        handler.ledSukses();
       } else {
-        ledGagal();
+        handler.ledGagal();
         Serial.println("Gagal3");
       }
-      stopDetect();
+      handler.stopDetect();
     }
     delay(1000);
   }

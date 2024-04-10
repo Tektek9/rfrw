@@ -44,10 +44,12 @@ def cekMemberCard(*args):
             with open(path, 'r') as file:
                 memberFile = file.read()
             
-            hasil = re.findall(r'(?<!//)\s*byte\s+memberTag\d+\s*\[\]\s*=\s*\{([^\}]*)\}',memberFile)
+            hasil = re.findall(r'0x[0-9A-Fa-f]{2}',memberFile)
             if hasil != 0:
                 print(f"Terdapat data kartu yang sudah mendapatkan akses member\nBerikut list array byte pada file {args[0]}")
-                for member in hasil:
+                i = 1
+                for i in range(0, len(hasil), 4):
+                    member = ", ".join([elem for elem in hasil[i:i+4]])
                     print("- {"+member+"}")
                 print("")
             else:
